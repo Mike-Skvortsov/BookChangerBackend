@@ -21,6 +21,8 @@ namespace Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Wishlist>()
                 .HasOne(w => w.User)
                 .WithMany(u => u.Wishlists)

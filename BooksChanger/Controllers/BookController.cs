@@ -2,6 +2,8 @@
 using BusinessLogic.Services.BookService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
+using System.Net.Sockets;
 using System.Security.Claims;
 
 namespace BooksChanger.Controllers
@@ -47,6 +49,7 @@ namespace BooksChanger.Controllers
             }
 
             return Ok(book);
+
         }
         [Authorize]
 
@@ -65,7 +68,6 @@ namespace BooksChanger.Controllers
             {
                 return NotFound("No books found for the user.");
             }
-
             return Ok(books);
         }
         [HttpGet("search")]

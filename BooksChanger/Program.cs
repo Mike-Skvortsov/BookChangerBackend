@@ -10,6 +10,9 @@ using System.Text;
 using BusinessLogic.AutoMapperProfile;
 using BooksChanger;
 using BooksChanger.Hubs;
+using System.Net.Sockets;
+using System.Security.Policy;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,7 +58,6 @@ builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
               .AllowCredentials()
               .WithExposedHeaders("X-Total-Pages"); // Expose X-Total-Pages header
     }));
-
 
 var app = builder.Build();
 app.MapHub<ChatHub>("/chathub");
