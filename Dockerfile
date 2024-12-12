@@ -20,4 +20,4 @@ COPY --from=build-env /app/BooksChanger/out .
 
 EXPOSE 5000
 
-ENTRYPOINT ["bash", "-c", "dotnet ef database update && dotnet BooksChanger.dll"]
+CMD ["dotnet", "BooksChanger.dll"]

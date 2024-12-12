@@ -60,6 +60,13 @@ builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
     }));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+    dbContext.Database.Migrate();
+}
+
 app.MapHub<ChatHub>("/chathub");
 
 
