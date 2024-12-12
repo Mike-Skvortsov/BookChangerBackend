@@ -9,11 +9,15 @@ namespace Database
         public Context CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<Context>();
+
+            var connectionString = Environment.GetEnvironmentVariable("RAILWAY_DATABASE_URL");
             optionsBuilder.UseSqlServer(
-                "Server=database;Database=ProjectWithMyLove;User=sa;Password=#qawsed123SS;",
-                options => options.EnableRetryOnFailure());
+                connectionString,
+                options => options.EnableRetryOnFailure()
+            );
 
             return new Context(optionsBuilder.Options);
         }
+
     }
 }
