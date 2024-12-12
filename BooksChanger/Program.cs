@@ -52,7 +52,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
     policy =>
     {
-        policy.WithOrigins("https://book-changer.vercel.app/")
+        policy.WithOrigins("https://book-changer.vercel.app")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials()
