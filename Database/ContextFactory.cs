@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Microsoft.Extensions.Configuration;
 
 
 namespace Database
@@ -8,16 +11,24 @@ namespace Database
     {
         public Context CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<Context>();
+            // Визначення шляху до appsettings.json
+            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "../BooksChanger");
 
-            var connectionString = Environment.GetEnvironmentVariable("RAILWAY_DATABASE_URL");
-            optionsBuilder.UseSqlServer(
-                connectionString,
-                options => options.EnableRetryOnFailure()
-            );
+            // Створення конфігурації для читання appsettings.json
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(basePath) // Вказівка на директорію BooksChanger
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            // Отримання рядка підключення з appsettings.json
+            var connectionString = configuration.GetConnectionString("DB");
+
+            // Налаштування DbContextOptionsBuilder
+            var optionsBuilder = new DbContextOptionsBuilder<Context>();
+            optionsBuilder.UseNpgsql(connectionString);
 
             return new Context(optionsBuilder.Options);
         }
-
     }
 }
+

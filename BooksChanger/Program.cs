@@ -23,7 +23,7 @@ builder.Services.AddBusinessLogicServices();
 builder.Services.AddAutoMapper(typeof(UserProfile), typeof(BookProfile), typeof(AuthorProfile), typeof(GenreProfile), typeof(GenreProfile));
 builder.Services.AddRepositoryServices();
 var connectionString = builder.Configuration.GetConnectionString("DB");
-builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
 builder.Services.AddSignalR();
 builder.Services.AddSwaggerGen(options =>
 {
