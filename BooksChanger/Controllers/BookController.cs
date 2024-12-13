@@ -18,7 +18,7 @@ namespace BooksChanger.Controllers
         {
             _bookService = bookService;
         }
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}")]   
         public async Task<IActionResult> GetBookById(int id)
         {
             var book = await _bookService.GetBookById(id);
@@ -121,9 +121,13 @@ namespace BooksChanger.Controllers
             }
         }
         [HttpGet("topBooks")]
-        public async Task<IActionResult> GetTopBooks([FromQuery] int count = 4) // Default to 4 books if no parameter is provided
+        public async Task<IActionResult> GetTopBooks([FromQuery] int count = 4)
         {
             var books = await _bookService.GetTopBooks(count);
+            if (books == null || !books.Any())
+            {
+                return NotFound("No top books found.");
+            }
             return Ok(books);
         }
 
