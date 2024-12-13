@@ -55,9 +55,9 @@ builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
         policy.WithOrigins("https://book-changer.vercel.app")
               .AllowAnyMethod()
               .AllowAnyHeader()
-              .AllowCredentials()
-              .WithExposedHeaders("X-Total-Pages"); // Expose X-Total-Pages header
+              .AllowCredentials();
     }));
+
 
 var app = builder.Build();
 
@@ -75,8 +75,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseRouting();
 app.UseCors("NgOrigins");
+app.UseRouting();
 
 app.UseHttpsRedirection();
 
