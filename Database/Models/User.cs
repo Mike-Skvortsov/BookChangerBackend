@@ -12,7 +12,7 @@ namespace Database.Models
         public string? PhoneNumber { get; set; }
         public float Rating { get; set; } = 0;
         public int NumberOfExchanges { get; set; } = 0;
-        public DateTime OnlineTime { get; set; } = DateTime.Now;
+        public DateTime OnlineTime { get; set; } = DateTime.UtcNow;
         public string? Email { get; set; }
         public byte[]? PasswordHash { get; set; }
         public byte[]? PasswordSalt { get; set; }
