@@ -27,7 +27,7 @@ namespace BooksChanger.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDTO request)
         {
-            var user = await _userService.CreateUser(request, 1);
+            var user = await _userService.CreateUser(request);
             var token = _authService.CreateToken(user); 
             return Ok(new { token, userId = user.Id });
         }
