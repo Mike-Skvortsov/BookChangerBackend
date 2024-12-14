@@ -17,8 +17,6 @@ namespace Database.Models
         public byte[]? PasswordHash { get; set; }
         public byte[]? PasswordSalt { get; set; }
         public byte[]? Image { get; set; }
-        public Role Role { get; set; }
-        public int RoleId { get; set; }
         public virtual ICollection<Book> Books { get; set; } = new List<Book>();
         public virtual ICollection<UserReview> SentReviews { get; set; } = new List<UserReview>();
         public virtual ICollection<UserReview> ReceivedReviews { get; set; } = new List<UserReview>();
