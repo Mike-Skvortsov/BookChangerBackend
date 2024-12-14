@@ -25,12 +25,13 @@ namespace BusinessLogic.Services.UserService
 
             return user;
         }
-        public async Task<User> CreateUser(RegisterDTO userDTO)
+        public async Task<User> CreateUser(RegisterDTO userDTO, int role = 1)
         {
             User user = _mapper.Map<User>(userDTO);
             CreatePassHash(userDTO.Password, out byte[] passHash, out byte[] passSalt);
             user.PasswordHash = passHash;
             user.PasswordSalt = passSalt;
+            user.RoleId = role;
             return await _repository.CreateUser(user);
         }
 
