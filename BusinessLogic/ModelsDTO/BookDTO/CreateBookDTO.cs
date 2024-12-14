@@ -12,5 +12,6 @@
         public string ConditionOfTheBook { get; set; }
         public List<int> AuthorIds { get; set; }
         public List<int> GenreIds { get; set; }
+
     }
 }
