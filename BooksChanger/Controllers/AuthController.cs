@@ -32,18 +32,18 @@ namespace BooksChanger.Controllers
             return Ok(new { token, userId = user.Id });
         }
 
-        [HttpPost("register-admin")]
-        public async Task<ActionResult<User>> RegisterAdmin(RegisterDTO request, string adminPassword)
-        {
-            if (adminPassword != _configuration["AdminRegistrationPassword"])
-            {
-                return Unauthorized();
-            }
+        //[HttpPost("register-admin")]
+        //public async Task<ActionResult<User>> RegisterAdmin(RegisterDTO request, string adminPassword)
+        //{
+        //    if (adminPassword != _configuration["AdminRegistrationPassword"])
+        //    {
+        //        return Unauthorized();
+        //    }
 
-            var user = await _userService.CreateUser(request, 2);
+        //    var user = await _userService.CreateUser(request, 2);
 
-            return Ok(user);
-        }
+        //    return Ok(user);
+        //}
 
         [HttpPost("login")]
         public async Task<ActionResult<UserLoginResponseDTO>> Login(LoginDTO request)
