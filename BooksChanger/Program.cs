@@ -49,14 +49,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
-builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
-    policy =>
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", policy =>
     {
-        policy.WithOrigins("https://book-changer.vercel.app")
-              .AllowAnyMethod()
+        policy.WithOrigins("https://book-changer.vercel.app") // Дозволити запити з цього домену
               .AllowAnyHeader()
-              .AllowCredentials();
-    }));
+              .AllowAnyMethod();
+    });
+});
 
 
 var app = builder.Build();
@@ -75,7 +76,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("NgOrigins");
+app.UseCors("AllowSpecificOrigin");
 app.UseRouting();
 
 //app.UseHttpsRedirection();
