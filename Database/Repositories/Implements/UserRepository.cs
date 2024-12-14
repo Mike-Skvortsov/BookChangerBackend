@@ -33,10 +33,24 @@ namespace Database.Repositories.Implements
         }
         public async Task<User> CreateUser(User user)
         {
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return user;
+            try
+            {
+                await _context.Users.AddAsync(user);
+                var saveResult = await _context.SaveChangesAsync();
+                if (saveResult > 0)
+                {
+                    return user;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // Логування помилок
+                Console.WriteLine($"Error while creating user: {ex.Message}");
+                return null;
+            }
         }
+
         public async Task<User> GetUserByEmail(string email)
         {
             return await _context.Users

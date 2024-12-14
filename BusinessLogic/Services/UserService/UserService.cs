@@ -31,8 +31,15 @@ namespace BusinessLogic.Services.UserService
             CreatePassHash(userDTO.Password, out byte[] passHash, out byte[] passSalt);
             user.PasswordHash = passHash;
             user.PasswordSalt = passSalt;
-            return await _repository.CreateUser(user);
+
+            var createdUser = await _repository.CreateUser(user);
+            if (createdUser == null)
+            {
+                throw new Exception("Failed to create user.");
+            }
+            return createdUser;
         }
+
 
         private void CreatePassHash(string password, out byte[] passHash, out byte[] passSalt)
         {

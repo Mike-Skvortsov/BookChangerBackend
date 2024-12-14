@@ -27,10 +27,23 @@ namespace BooksChanger.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDTO request)
         {
-            var user = await _userService.CreateUser(request);
-            var token = _authService.CreateToken(user); 
-            return Ok(new { token, userId = user.Id });
+            try
+            {
+                var user = await _userService.CreateUser(request);
+                if (user == null)
+                {
+                    return StatusCode(500, "Failed to create user.");
+                }
+                var token = _authService.CreateToken(user);
+                return Ok(new { token, userId = user.Id });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during registration: {ex.Message}");
+                return StatusCode(500, "Internal server error.");
+            }
         }
+
 
         //[HttpPost("register-admin")]
         //public async Task<ActionResult<User>> RegisterAdmin(RegisterDTO request, string adminPassword)
