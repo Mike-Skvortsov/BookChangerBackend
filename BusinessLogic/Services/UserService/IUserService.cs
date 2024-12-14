@@ -8,7 +8,7 @@ namespace BusinessLogic.Services.UserService
         Task<bool> ChangePassword(int userId, string currentPassword, string newPassword);
         Task<bool> DeleteUser(int userId);
         Task<bool> UpdateUser(int userId, AddUserInfoDTO userUpdateDTO);
-        Task<User> CreateUser(RegisterDTO userDTO, int role = 1);
+        Task<User> CreateUser(RegisterDTO userDTO);
         Task<UserById> UserGetById(int id);
     }
 }
