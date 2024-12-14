@@ -78,7 +78,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("NgOrigins");
 app.UseRouting();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
