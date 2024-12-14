@@ -18,18 +18,11 @@ namespace Database
         public DbSet<Message> Messages { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Wishlist> Wishlists { get; set; }
-        public DbSet<Role> Roles { get; set; } // Додано
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Role)
-                .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Wishlist>()
                 .HasOne(w => w.User)
