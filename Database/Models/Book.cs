@@ -13,7 +13,7 @@ namespace Database.Models
         public string ConditionOfTheBook { get; set; }
         public int OwnerId { get; set; }
         public string? Language { get; set; }
-        public DateTime DateTime { get; set; } = DateTime.Now;
+        public DateTime DateTime { get; set; } = DateTime.UtcNow;
         public virtual User? Owner { get; set; }
         [JsonIgnore]
         public virtual ICollection<BookAuthor> Authors { get; set;} = new List<BookAuthor>();

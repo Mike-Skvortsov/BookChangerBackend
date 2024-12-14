@@ -35,7 +35,7 @@ namespace BusinessLogic.Services.BookService
         public async Task<GetBookByIdDTO> CreateBook(CreateBookDTO createdBook, int userId)
         {
             Book book = _mapper.Map<Book>(createdBook);
-            book.DateTime = DateTime.Now;
+            book.DateTime = DateTime.UtcNow;
             book.OwnerId = userId;
             book.Owner = await _userRepository.UserGetById(userId);
 
