@@ -33,7 +33,6 @@ namespace Database.Repositories.Implements
         }
         public async Task<User> CreateUser(User user)
         {
-            user.Role = await _context.Roles.FindAsync(user.RoleId);
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
