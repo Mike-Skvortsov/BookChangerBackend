@@ -1,8 +1,8 @@
-# Вказуємо SDK для збірки
+# Використовуємо SDK образ для побудови проєкту
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 
-# Копіюємо лише необхідні файли
+# Копіюємо лише .csproj файли для restore залежностей
 COPY BooksChanger/BooksChanger/*.csproj BooksChanger/
 COPY BooksChanger/BusinessLogic/*.csproj BusinessLogic/
 COPY BooksChanger/Database/*.csproj Database/
@@ -10,22 +10,22 @@ COPY BooksChanger/Database/*.csproj Database/
 # Відновлюємо залежності
 RUN dotnet restore BooksChanger/BooksChanger.csproj
 
-# Копіюємо весь код
+# Копіюємо весь залишковий код
 COPY BooksChanger/BooksChanger/ BooksChanger/
 COPY BooksChanger/BusinessLogic/ BusinessLogic/
 COPY BooksChanger/Database/ Database/
 
-# Публікуємо застосунок
+# Збираємо проєкт
 WORKDIR /app/BooksChanger
 RUN dotnet publish -c Release -o /publish
 
-# Використовуємо Runtime-образ
+# Використовуємо Runtime-образ для запуску
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build-env /publish .
 
-# Відкриваємо порт
+# Відкриваємо порт для сервера
 EXPOSE 5000
 
-# Запускаємо застосунок
+# Команда запуску
 CMD ["dotnet", "BooksChanger.dll"]
