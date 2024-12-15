@@ -39,9 +39,22 @@ jobs:
       - name: Install Render CLI
         run: curl -fsSL https://render.com/static/cli/install.sh | bash
 
-      - name: Deploy to Render
+      - name: Install Terraform
+        run: sudo apt-get update && sudo apt-get install -y terraform
+
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init
+
+      - name: Terraform Apply
+        working-directory: ./terraform
         env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          TOKEN: ${{ secrets.TOKEN }}
+          DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+        run: terraform apply -auto-approve
+
+      - name: Verify API availability
         run: |
-          render services update srv-ctdbhdjqf0us73bo4tig \
-            --env-vars TOKEN=${{ secrets.TOKEN }} DB_CONNECTION=${{ secrets.DB_CONNECTION }}
+          sleep 30
+          curl -s -o /dev/null -w "%{http_code}" https://bookchangerbackend.onrender.com/health \
+            | grep 200 || (echo "API is unavailable!" && exit 1)
