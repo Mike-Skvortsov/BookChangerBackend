@@ -13,6 +13,7 @@ using BooksChanger.Hubs;
 using System.Net.Sockets;
 using System.Security.Policy;
 using Microsoft.AspNetCore.DataProtection;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +62,9 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+
+app.UseHttpMetrics();
+app.MapMetrics();
 
 using (var scope = app.Services.CreateScope())
 {
