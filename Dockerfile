@@ -1,34 +1,37 @@
-# Вказуємо базовий образ для побудови
+# Крок 1: Використовуємо SDK-образ для збірки проєкту
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+
+# Налаштовуємо робочу директорію
 WORKDIR /app
 
-# Копіюємо .csproj файли до відповідних папок
-COPY BooksChanger/BooksChanger/BooksChanger.csproj BooksChanger/
-COPY BooksChanger/BusinessLogic/BusinessLogic.csproj BusinessLogic/
-COPY BooksChanger/Database/Database.csproj Database/
+# Копіюємо всі .csproj файли з правильною структурою
+COPY BooksChanger/BooksChanger/*.csproj ./BooksChanger/
+COPY BooksChanger/BusinessLogic/*.csproj ./BusinessLogic/
+COPY BooksChanger/Database/*.csproj ./Database/
 
-# Restore залежності
-RUN dotnet restore BooksChanger/BooksChanger.csproj
+# Виконуємо restore залежностей
+RUN dotnet restore ./BooksChanger/BooksChanger.csproj
 
-# Копіюємо весь проєкт
-COPY BooksChanger/BooksChanger/ BooksChanger/
-COPY BooksChanger/BusinessLogic/ BusinessLogic/
-COPY BooksChanger/Database/ Database/
+# Копіюємо решту файлів з проєкту
+COPY BooksChanger/BooksChanger/ ./BooksChanger/
+COPY BooksChanger/BusinessLogic/ ./BusinessLogic/
+COPY BooksChanger/Database/ ./Database/
 
-# Видаляємо непотрібні файли
-RUN rm -rf BooksChanger/bin BooksChanger/obj \
-           BusinessLogic/bin BusinessLogic/obj \
-           Database/bin Database/obj
-
-# Публікуємо проєкт
+# Публікуємо застосунок
 WORKDIR /app/BooksChanger
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o /publish
 
-# Використовуємо ASP.NET Core образ для запуску
+# Крок 2: Використовуємо Runtime-образ для запуску застосунку
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
-WORKDIR /app
-COPY --from=build-env /app/BooksChanger/out .
 
-# Відкриваємо порт
+# Налаштовуємо робочу директорію
+WORKDIR /app
+
+# Копіюємо зібрані артефакти з попереднього етапу
+COPY --from=build-env /publish .
+
+# Відкриваємо порт для застосунку
 EXPOSE 5000
+
+# Вказуємо команду запуску
 CMD ["dotnet", "BooksChanger.dll"]
