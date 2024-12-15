@@ -3,19 +3,19 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 
 # Копіюємо .csproj файли для restore
-COPY BooksChanger/BooksChanger.csproj ./BooksChanger/
-COPY BusinessLogic/BusinessLogic.csproj ./BusinessLogic/
-COPY Database/Database.csproj ./Database/
+COPY BooksChanger/BooksChanger/BooksChanger.csproj ./BooksChanger/
+COPY BooksChanger/BusinessLogic/BusinessLogic.csproj ./BusinessLogic/
+COPY BooksChanger/Database/Database.csproj ./Database/
 
-# Restore
+# Restore залежності
 RUN dotnet restore BooksChanger/BooksChanger.csproj
 
-# Копіюємо всі файли проєкту
-COPY BooksChanger/ ./BooksChanger/
-COPY BusinessLogic/ ./BusinessLogic/
-COPY Database/ ./Database/
+# Копіюємо весь проєкт
+COPY BooksChanger/BooksChanger/ ./BooksChanger/
+COPY BooksChanger/BusinessLogic/ ./BusinessLogic/
+COPY BooksChanger/Database/ ./Database/
 
-# Видаляємо непотрібні файли перед збіркою
+# Видаляємо непотрібні файли
 RUN rm -rf ./BooksChanger/bin ./BooksChanger/obj \
            ./BusinessLogic/bin ./BusinessLogic/obj \
            ./Database/bin ./Database/obj
