@@ -7,14 +7,13 @@ COPY BooksChanger/*.csproj BooksChanger/
 COPY BusinessLogic/*.csproj BusinessLogic/
 COPY Database/*.csproj Database/
 
-
 # Відновлюємо залежності
 RUN dotnet restore BooksChanger/BooksChanger.csproj
 
 # Копіюємо весь залишковий код
-COPY BooksChanger/BooksChanger/ BooksChanger/
-COPY BooksChanger/BusinessLogic/ BusinessLogic/
-COPY BooksChanger/Database/ Database/
+COPY BooksChanger/ BooksChanger/
+COPY BusinessLogic/ BusinessLogic/
+COPY Database/ Database/
 
 # Збираємо проєкт
 WORKDIR /app/BooksChanger
