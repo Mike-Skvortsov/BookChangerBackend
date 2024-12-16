@@ -3,9 +3,10 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 
 # Копіюємо лише .csproj файли для restore залежностей
-COPY BooksChanger/BooksChanger/*.csproj BooksChanger/
-COPY BooksChanger/BusinessLogic/*.csproj BusinessLogic/
-COPY BooksChanger/Database/*.csproj Database/
+COPY BooksChanger/*.csproj BooksChanger/
+COPY BusinessLogic/*.csproj BusinessLogic/
+COPY Database/*.csproj Database/
+
 
 # Відновлюємо залежності
 RUN dotnet restore BooksChanger/BooksChanger.csproj
