@@ -10,11 +10,6 @@ COPY Database/*.csproj Database/
 # Відновлюємо залежності
 RUN dotnet restore BooksChanger/BooksChanger.csproj
 
-# Копіюємо весь залишковий код
-COPY BooksChanger/ BooksChanger/
-COPY BusinessLogic/ BusinessLogic/
-COPY Database/ Database/
-
 # Збираємо проєкт
 WORKDIR /app/BooksChanger
 RUN dotnet publish -c Release -o /publish
