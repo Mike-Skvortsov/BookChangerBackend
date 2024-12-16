@@ -30,7 +30,7 @@ jobs:
         run: dotnet restore ./BooksChanger/BooksChanger.csproj
 
       - name: Build Docker Image
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/book-changer-back:latest -f BooksChanger/Dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/book-changer-back:latest -f BooksChanger/Dockerfile ./BooksChanger
 
       - name: Push Docker Image to Docker Hub
         env:
